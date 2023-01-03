@@ -1,21 +1,6 @@
-// node server which will handle socket io connections
-const io = require("socket.io")(3000);
-const users = {};
+var http = require('http');
 
- io.on('connection', socket=>{
-    console.log("connected");
-     socket.on('new-user-joined', name=>{
-         console.log("New user", name);
-         users[socket.id] = name;
-         socket.broadcast.emit('user-joined', name);
-     });
-
-     socket.on('send', message=>{
-         socket.broadcast.emit('receive', {message: message, name: users[socket.id]})
-     });
-
-     socket.on('disconnect', message=>{
-        socket.broadcast.emit('left', users[socket.id]);
-        delete users[socket.id];
-    });
- })
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World!');
+}).listen(8080);
